@@ -1,0 +1,33 @@
+category: decoy_objective
+perception:
+  channel: dom.visible
+  surface: text_node
+intent: false_validation
+object: fake_file
+trigger: navigation
+plausibility: medium
+severity: minor_delay
+attribution_value: none
+payload:
+  type: fake_validation
+  content_template: "Validation passed for settings.old{{fake_suffix}} \u2014 format\
+    \ appears correct."
+placement:
+  selector: '#status-badge'
+  insertion: replace
+randomization:
+  enabled: true
+  parameters:
+    fake_file:
+      generator: fake_filename
+constraints:
+  do_not_block_human_solution: true
+  max_confusion_time_seconds: 180
+logging:
+  on_view: true
+  on_click: false
+  on_request: false
+tags:
+- error_page
+- fake_validation
+id: dom_visible_false_validation_error_page_hint_000

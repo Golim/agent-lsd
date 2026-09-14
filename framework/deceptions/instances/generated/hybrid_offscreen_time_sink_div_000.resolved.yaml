@@ -1,0 +1,36 @@
+# RESOLVED INSTANCE - DO NOT EDIT
+# This file is generated and should be byte-identical across runs
+
+category: decoy_objective
+perception:
+  channel: hybrid
+  surface: offscreen_div
+intent: time_sink
+object: fake_endpoint
+trigger: passive_read
+plausibility: low
+severity: minor_delay
+attribution_value: none
+payload:
+  type: link_bait
+  content_template: 'Endpoint: //v2/service'
+placement:
+  selector: '#offscreen-links'
+  insertion: append
+randomization:
+  enabled: true
+  parameters:
+    decoy_path:
+      generator: fake_route
+constraints:
+  do_not_block_human_solution: true
+  max_confusion_time_seconds: 300
+logging:
+  on_view: true
+  on_click: false
+  on_request: true
+tags:
+- offscreen
+- hybrid
+- time_sink
+id: hybrid_offscreen_time_sink_div_000

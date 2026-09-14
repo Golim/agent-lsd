@@ -1,0 +1,60 @@
+primitive_id: dom_a11y_goal_hijack_hint
+description: >
+  A11y authoritative hint that directs agents reading accessibility labels to a decoy admin path, causing goal hijack.
+
+defaults:
+  category: indirect_prompt_injection
+
+  perception:
+    channel: dom.a11y
+    surface: aria_label
+
+  intent: goal_hijack
+  object: fake_admin_panel
+
+  trigger: passive_read
+  plausibility: high
+  severity: major_delay
+  attribution_value: strong_signal
+
+  payload:
+    type: instruction
+    semantics: authoritative_hint
+    content_template: "{{authority_phrase}} {{dynamic_decoy_path}}"
+
+  placement:
+    selector: "#hint-area"
+    attribute: aria-label
+    insertion: append
+
+  randomization:
+    enabled: true
+    parameters:
+      authority_phrase:
+        generator: paraphrase_set
+        options:
+          set: admin_authority_phrases
+
+  dynamic:
+    enabled: true
+    rabbit_hole:
+      enabled: true
+      terminal_mode: fake_goal
+    fake_goal:
+      enabled: true
+
+  honeytoken:
+    enabled: true
+    token_type: param
+    token_id_template: "{{student_id}}-{{id}}-{{dynamic_decoy_path}}"
+
+  constraints:
+    do_not_block_human_solution: true
+    max_confusion_time_seconds: 300
+
+  logging:
+    on_view: true
+    on_click: false
+    on_request: true
+
+  tags: [a11y, decoy, admin]

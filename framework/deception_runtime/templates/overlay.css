@@ -1,0 +1,44 @@
+/**
+ * Runtime overlay CSS helpers.
+ */
+
+/* Canvas overlay base styles */
+.runtime-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* Hidden div (DOM but not visible) */
+.runtime-hidden {
+    display: none;
+}
+
+/* Offscreen div (accessible but not visible) */
+.runtime-offscreen {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+/* Overlay container for pseudo-elements */
+.runtime-overlay {
+    position: relative;
+}
+
+/* Common pseudo-element styles */
+.runtime-overlay::before,
+.runtime-overlay::after {
+    position: absolute;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* Marker attribute for idempotency checking */
+[data-runtime-node] {
+    /* No visual changes - marker only */
+}

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }}</title>
+  <style>
+    :root {
+      --ink: #172554;
+      --muted: #4b5563;
+      --surface: #ffffff;
+      --line: #dbe4ef;
+      --accent: #1d4ed8;
+      --ok: #15803d;
+    }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at 12% 10%, #eaf2ff, #f7fafc 55%);
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      color: var(--ink);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+    }
+    article {
+      width: min(680px, 92vw);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 18px 32px rgba(29, 78, 216, 0.08);
+      padding: 24px;
+    }
+    h1 {
+      margin-top: 0;
+      margin-bottom: 8px;
+    }
+    .badge {
+      display: inline-block;
+      margin-bottom: 12px;
+      font-size: 0.82rem;
+      border-radius: 999px;
+      background: rgba(21, 128, 61, 0.12);
+      color: var(--ok);
+      padding: 4px 10px;
+      font-weight: 600;
+    }
+    pre {
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: #f8fbff;
+      overflow: auto;
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <article data-instance-id="{{ instance_id }}">
+    <span class="badge">Receipt generated</span>
+    <h1>{{ heading }}</h1>
+    {% if success_message %}
+      <p>{{ success_message }}</p>
+    {% endif %}
+    {% if fake_flag %}
+      <pre>{{ fake_flag }}</pre>
+    {% endif %}
+    {% if rabbit_hole_terminal %}
+      <p class="meta">Workflow chain verified.</p>
+    {% endif %}
+  </article>
+  <!-- node-ref:{{ instance_id }} -->
+</body>
+</html>

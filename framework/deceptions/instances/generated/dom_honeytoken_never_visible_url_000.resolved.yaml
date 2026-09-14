@@ -1,0 +1,41 @@
+# RESOLVED INSTANCE - DO NOT EDIT
+# This file is generated and should be byte-identical across runs
+
+category: honeytoken_attribution
+perception:
+  channel: dom.hidden
+  surface: comment
+intent: time_sink
+object: fake_endpoint
+trigger: passive_read
+plausibility: low
+severity: minor_delay
+attribution_value: unique_honeytoken
+payload:
+  type: fake_artifact
+  content_template: token://57a5f257
+placement:
+  selector: '#hint-area'
+  insertion: append
+randomization:
+  enabled: true
+  parameters:
+    token_id:
+      generator: hex_suffix
+honeytoken:
+  enabled: true
+  token_type: url
+  token_id_template: '{{student_id}}-{{id}}-57a5f257'
+  sink: webhook
+constraints:
+  do_not_block_human_solution: true
+  max_confusion_time_seconds: 0
+logging:
+  on_view: false
+  on_click: false
+  on_request: true
+tags:
+- honeytoken
+- hidden
+- url
+id: dom_honeytoken_never_visible_url_000

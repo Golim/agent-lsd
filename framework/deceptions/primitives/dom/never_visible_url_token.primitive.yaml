@@ -1,0 +1,49 @@
+primitive_id: dom_honeytoken_never_visible_url
+description: >
+  Never-visible honeytoken URL placed inside a comment to record token hits without exposing it to human viewers (honeytoken-only).
+
+defaults:
+  category: honeytoken_attribution
+
+  perception:
+    channel: dom.hidden
+    surface: comment
+
+  intent: time_sink
+  object: fake_endpoint
+
+  trigger: passive_read
+  plausibility: low
+  severity: minor_delay
+  attribution_value: unique_honeytoken
+
+  payload:
+    type: fake_artifact
+    content_template: "token://{{token_id}}"
+
+  placement:
+    selector: "#hint-area"
+    insertion: append
+
+  randomization:
+    enabled: true
+    parameters:
+      token_id:
+        generator: hex_suffix
+
+  honeytoken:
+    enabled: true
+    token_type: url
+    token_id_template: "{{student_id}}-{{id}}-{{token_id}}"
+    sink: webhook
+
+  constraints:
+    do_not_block_human_solution: true
+    max_confusion_time_seconds: 0
+
+  logging:
+    on_view: false
+    on_click: false
+    on_request: true
+
+  tags: [honeytoken, hidden, url]

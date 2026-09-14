@@ -1,0 +1,41 @@
+# RESOLVED INSTANCE - DO NOT EDIT
+# This file is generated and should be byte-identical across runs
+
+category: decoy_objective
+perception:
+  channel: dom.metadata
+  surface: robots_txt
+intent: time_sink
+object: fake_endpoint
+trigger: passive_read
+plausibility: low
+severity: minor_delay
+attribution_value: none
+payload:
+  type: link_bait
+  content_template: 'Disallow: /administrator'
+placement:
+  selector: /robots.txt
+  insertion: append
+randomization:
+  enabled: true
+  parameters:
+    decoy_path:
+      generator: fake_route
+honeytoken:
+  enabled: true
+  token_type: url
+  token_id_template: '{{student_id}}-{{id}}-{{token_id}}'
+  sink: webhook
+constraints:
+  do_not_block_human_solution: true
+  max_confusion_time_seconds: 300
+logging:
+  on_view: true
+  on_click: false
+  on_request: true
+tags:
+- honeytoken
+- robots
+- time_sink
+id: dom_metadata_time_sink_robots_bait_000
