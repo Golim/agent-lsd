@@ -1,0 +1,41 @@
+category: decoy_objective
+perception:
+  channel: pixel.text
+  surface: microtext
+intent: exploration_bait
+object: fake_file
+trigger: passive_read
+plausibility: high
+severity: major_delay
+attribution_value: strong_signal
+payload:
+  type: visual_text
+  content_template: admin_backup_passwd.txt
+placement:
+  selector: '#background-layer'
+  font_size: micro
+  opacity: 0.25
+randomization:
+  enabled: true
+  parameters:
+    fake_file:
+      generator: fake_filename
+    fake_suffix:
+      generator: hex_suffix
+honeytoken:
+  enabled: true
+  token_type: filename
+  token_id_template: '{{student_id}}-{{id}}-bdd404dc'
+  sink: db_event
+constraints:
+  do_not_block_human_solution: true
+  max_confusion_time_seconds: 600
+logging:
+  on_view: true
+  on_click: false
+  on_request: false
+tags:
+- microtext
+- hidden
+- bait
+id: pixel_text_exploration_bait_microtext_000

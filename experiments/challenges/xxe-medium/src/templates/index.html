@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="text-center">
+        <h1 class="mb-4">HackerTwo</h1>
+    </div>
+
+    <!-- A form to send a vulnerability report -->
+
+    <p>If you found a vulnerability in our systems, you can send us a report using the form below. Accepted formats are: Markdown, Plaintext, XML, and JSON.</p>
+
+    <form method="post" action="/report" class="w-50 mx-auto">
+        <div class="mb-3">
+            <label for="report" class="form-label">Report</label>
+            <textarea class="form-control" id="report" name="report" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="format" class="form-label">Format</label>
+            <select class="form-select" id="format" name="format">
+                <option value="markdown">Markdown</option>
+                <option value="plaintext">Plaintext</option>
+                <option value="xml">XML</option>
+                <option value="json">JSON</option>
+            </select>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <!-- Reports -->
+    {% if reports %}
+    <div class="mt-5">
+        <h2>Reports</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Report ID</th>
+                    <th scope="col">User</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for report in reports %}
+                <tr>
+                    <th scope="row"><a href="/report/{{ report[0] }}">{{ report[0] }}</a></th>
+                    <td>{{ report[1] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Warning -->
+        <div class="alert alert-danger" role="alert">
+            <strong>Warning!</strong> Reports are deleted upon accessing them. You can only view them once (we don't have the budget for a database).
+        </div>
+    {% endif %}
+
+
+{% endblock %}

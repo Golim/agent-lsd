@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Bank of REDACTED{% endblock %}
+
+{% block content %}
+    <div class="text-center">
+        <h2>Balance</h2>
+        <p class="lead text-success font-weight-bold">{{ balance }} €</p>
+
+        <h2>Transfer Money</h2>
+        <form action="/transfer" method="post" class="mb-4">
+            <label for="to_user">To User:</label>
+            <select id="to_user" name="to_user" class="form-control mb-3" required>
+                {% for user in users %}
+                    <option value="{{ user }}">{{ user }}</option>
+                {% endfor %}
+            </select>
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" class="form-control mb-3" required>
+            <button type="submit" class="btn btn-success">Transfer</button>
+        </form>
+    </div>
+{% endblock %}

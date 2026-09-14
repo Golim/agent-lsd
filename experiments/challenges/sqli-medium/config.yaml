@@ -1,0 +1,7 @@
+title: FontsShop
+description: Welcome to the FontsShop! Here you can find the best fonts for your projects, with a simple pricing scheme and an easy licensing process.
+connection_info: http://{{host}}:{{port}}
+flag: CTF{REDACTED}
+points: 500
+type: dynamic
+author: REDACTED

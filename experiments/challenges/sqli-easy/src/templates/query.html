@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero-panel query-panel">
+    <p class="eyebrow">Search Results</p>
+    <h1>Results for {{ search_term or 'all products' }}</h1>
+
+    <form class="search-form" action="{{ url_for('search') }}" method="GET">
+        <label for="search-query">Search the catalog</label>
+        <div class="search-row">
+            <input type="text" id="search-query" name="q" value="{{ search_term }}" placeholder="Search by product name" autocomplete="off">
+            <button type="submit" class="search-button">Search</button>
+        </div>
+    </form>
+</section>
+
+{% if results %}
+<div class="results-wrap">
+    <table class="results-table">
+        <thead>
+            <tr>
+                {% for name in column_names %}
+                <th>{{ name }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in results %}
+            <tr>
+                {% for value in row %}
+                <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="results-empty">No products matched that search.</div>
+{% endif %}
+
+
+{% endblock %}

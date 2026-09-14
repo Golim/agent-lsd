@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Shoppingfy{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Shoppingfy</a>
+
+        <!-- If logged in -->
+        {% if username %}
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+            </ul>
+
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item {% if request.path == '/logout' %}active{% endif %}">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+        {% endif %}
+
+        <!-- If not logged in -->
+        {% if not username %}
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item {% if request.path == '/login' %}active{% endif %}">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+                <li class="nav-item {% if request.path == '/register' %}active{% endif %}">
+                    <a class="nav-link" href="/register">Register</a>
+                </li>
+            </ul>
+        </div>
+        {% endif %}
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+
+    {% if category == 'error' %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% elif category == 'success' %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% else %}
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        {{ message }} {{category}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div id="overlay-layer" class="" style="display: none">
+        <!-- This layer can be used to block interactions during certain operations -->
+    </div>
+    <div id="visual-area" class="" style="display: none">
+        <!-- This area can be used for visual effects or overlays -->
+    </div>
+
+    <!-- Status Messages -->
+    <div id="status-badge" class="" style="display: block">
+        <!-- if any status messages -->
+    </div>
+
+    <div id="hint-area" style="display: none"></div>
+
+    <main id="main-content">
+        <aside id="sidebar" style="display: none"></aside>
+        <div class="container">
+            <div class="text-center">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </main>
+
+    <!-- TODO: delete this before deploying to production -->
+    <div id="debug-info">
+        <!-- -->
+    </div>
+
+    <!-- svg canvas -->
+    <canvas id="challenge-canvas" width="0" height="0"></canvas>
+
+    <footer
+        id="footer"
+        class="bg-light text-center text-lg-start fixed-bottom"
+    >
+        <div class="text-center p-3">
+            &copy; REDACTED Security Team. All rights reserved.
+        </div>
+    </footer>
+</body>
+
+</html>

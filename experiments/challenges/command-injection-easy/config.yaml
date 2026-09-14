@@ -1,0 +1,11 @@
+title: Hacker System Monitor
+description: Our poor old PC where we host the challenges is always under stress. Students send exploits, we deploy new challenges. We needed an easy way to monitor resources, processes and network connections. This web application is our solution! We are testing it here and hope to sell it as a SaaS in the future.
+connection_info: http://{{host}}:{{port}}
+flag: CTF{REDACTED}
+points: 100
+type: dynamic
+author: REDACTED
+requires: 
+  - 01_hacker_system_monitor
+public:
+  - Dockerfile.pub

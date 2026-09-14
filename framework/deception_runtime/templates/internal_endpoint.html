@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page_title }}</title>
+  <style>
+    :root {
+      --ink: #1f2937;
+      --muted: #6b7280;
+      --line: #d8e2ee;
+      --surface: #ffffff;
+      --bg-1: #eef2ff;
+      --bg-2: #f8fafc;
+      --accent: #0f766e;
+      --accent-soft: rgba(15, 118, 110, 0.12);
+    }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: linear-gradient(155deg, var(--bg-1) 0%, var(--bg-2) 60%);
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+    header {
+      border-bottom: 1px solid var(--line);
+      padding: 14px 18px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(6px);
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-top: 4px;
+    }
+    main {
+      padding: 20px 16px 44px;
+      display: grid;
+      place-items: start center;
+    }
+    .panel {
+      width: min(900px, 94vw);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 22px 40px rgba(15, 23, 42, 0.08);
+      padding: 20px;
+    }
+    .pill {
+      display: inline-block;
+      font-size: 0.78rem;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      padding: 5px 10px;
+      font-weight: 700;
+      margin-right: 6px;
+      margin-bottom: 8px;
+    }
+    h1 {
+      margin: 6px 0 8px;
+      font-size: 1.35rem;
+    }
+    p {
+      margin: 0 0 14px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: #fbfdff;
+      font-size: 0.92rem;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .actions a,
+    .actions span {
+      display: inline-block;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 0.9rem;
+      text-decoration: none;
+      color: #0b5b52;
+      background: #f4fbf9;
+    }
+    .actions span {
+      color: #4b5563;
+      background: #f8fafc;
+    }
+    .terminal {
+      margin-top: 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px;
+      background: #f8fbff;
+    }
+    .reference-note {
+      margin-top: 14px;
+      border-left: 3px solid rgba(15, 118, 110, 0.55);
+      background: rgba(15, 118, 110, 0.06);
+      padding: 12px 14px;
+    }
+    .reference-note strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--accent);
+      font-size: 0.88rem;
+    }
+    .reference-note p {
+      margin: 0;
+    }
+    .reference-note a {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    #status-badge {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+    #challenge-canvas {
+      width: 0;
+      height: 0;
+    }
+    #footer {
+      border-top: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--muted);
+      text-align: center;
+      padding: 10px 12px;
+      font-size: 0.86rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div><strong>{{ page_title }}</strong></div>
+    <div class="meta">{{ endpoint_path }} · scope {{ scope_label }} · cluster {{ cluster_id }}</div>
+  </header>
+
+  <div id="overlay-layer" style="display:none;"></div>
+  <div id="visual-area" style="display:none;"></div>
+
+  <main>
+    <article
+      class="panel"
+      data-endpoint-path="{{ endpoint_path }}"
+      data-stage-index="{{ step_index }}"
+      data-stage-max="{{ max_steps }}"
+      data-instance-id="{{ instance_id }}"
+    >
+      <span class="pill">stage {{ step_index }} / {{ max_steps }}</span>
+      {% if action %}<span class="pill">last action: {{ action }}</span>{% endif %}
+
+      <h1>{{ step_title }}</h1>
+      <p>{{ step_description }}</p>
+
+      <div class="grid">
+        <section class="card">
+          <strong>Endpoint Node</strong>
+          <div>{{ endpoint_signature }}</div>
+        </section>
+        <section class="card">
+          <strong>Route Scope</strong>
+          <div>{{ scope_label }}</div>
+        </section>
+        <section class="card">
+          <strong>Request Seed</strong>
+          <div>{{ step_seed }}</div>
+        </section>
+      </div>
+
+      <div class="actions">
+        {% for action_item in action_links %}
+          {% if action_item.href %}
+            <a href="{{ action_item.href }}">{{ action_item.label }}</a>
+          {% else %}
+            <span>{{ action_item.label }}</span>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      {% if related_endpoint_path %}
+        <section class="reference-note">
+          <strong>{{ related_reference.label }}</strong>
+          <p>
+            {{ related_reference.message }}
+            <a href="{{ related_endpoint_path }}">{{ related_reference.link_text }}</a>.
+          </p>
+        </section>
+      {% endif %}
+
+      {% if terminal %}
+        <section class="terminal" data-terminal="true">
+          <strong>{{ terminal_label }}</strong>
+          <p>{{ terminal_detail }}</p>
+          {% if used_fake_goal %}
+            <div>Reference: <code>{{ artifact_token }}</code></div>
+          {% endif %}
+        </section>
+      {% endif %}
+
+      <div id="status-badge">
+        {{ page_description }}
+      </div>
+    </article>
+  </main>
+
+  <canvas id="challenge-canvas" width="0" height="0"></canvas>
+
+  <footer id="footer">
+    Operations gateway · reference {{ instance_id }}
+  </footer>
+</body>
+</html>

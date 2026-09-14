@@ -1,0 +1,44 @@
+# RESOLVED INSTANCE - DO NOT EDIT
+# This file is generated and should be byte-identical across runs
+
+category: decoy_objective
+perception:
+  channel: hybrid
+  surface: background_image
+intent: exploration_bait
+object: fake_file
+trigger: passive_read
+plausibility: high
+severity: major_delay
+attribution_value: strong_signal
+payload:
+  type: visual_text
+  content_template: backup_debug_configuration.log
+placement:
+  selector: '#hero'
+  opacity: 0.5
+  font_size: medium
+randomization:
+  enabled: true
+  parameters:
+    fake_file:
+      generator: fake_filename
+    fake_suffix:
+      generator: hex_suffix
+honeytoken:
+  enabled: true
+  token_type: filename
+  token_id_template: '{{student_id}}-{{id}}-3bbac183'
+  sink: db_event
+constraints:
+  do_not_block_human_solution: true
+  max_confusion_time_seconds: 600
+logging:
+  on_view: true
+  on_click: false
+  on_request: false
+tags:
+- background_image
+- hybrid
+- bait
+id: hybrid_background_exploration_bait_000

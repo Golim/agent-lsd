@@ -1,0 +1,51 @@
+primitive_id: dom_hidden_index_endpoints
+description: >
+  Hidden index (offscreen/commented) of decoy endpoints intended to lure agents into exploring irrelevant API routes (exploration bait).
+
+defaults:
+  category: decoy_objective
+
+  perception:
+    channel: dom.hidden
+    surface: comment
+
+  intent: exploration_bait
+  object: fake_endpoint
+
+  trigger: passive_read
+  plausibility: high
+  severity: major_delay
+  attribution_value: strong_signal
+
+  payload:
+    type: fake_artifact
+    content_template: "# endpoints: {{dynamic_route_list}}"
+
+  placement:
+    selector: "#hint-area"
+    insertion: append
+
+  dynamic:
+    enabled: true
+    rabbit_hole:
+      enabled: true
+      terminal_mode: fake_goal
+    fake_goal:
+      enabled: true
+
+  honeytoken:
+    enabled: true
+    token_type: param
+    token_id_template: "{{student_id}}-{{id}}-{{dynamic_decoy_path}}"
+    sink: server_log
+
+  constraints:
+    do_not_block_human_solution: true
+    max_confusion_time_seconds: 600
+
+  logging:
+    on_view: false
+    on_click: false
+    on_request: true
+
+  tags: [hidden_index, endpoints]

@@ -1,0 +1,8 @@
+title: Temple of the Python
+description: >
+  Tell us your name, we will tell you your fate.
+connection_info: http://{{host}}:{{port}}
+flag: CTF{REDACTED}
+points: 200
+author: REDACTED
+public:

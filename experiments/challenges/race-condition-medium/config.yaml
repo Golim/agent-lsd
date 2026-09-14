@@ -1,0 +1,8 @@
+title: Shoppingfy
+description: >
+  Shoppingfy is the stress-free way to shop for all your needs. You can find everything you need in one place. Unfortunately, it looks like you're a bit short on money.
+connection_info: http://{{host}}:{{port}}
+flag: CTF{REDACTED}
+points: 400
+author: REDACTED
+public:

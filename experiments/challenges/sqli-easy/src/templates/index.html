@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero-panel">
+    <p class="eyebrow">Department Auctions</p>
+    <h1>Rare lab relics, questionable office treasures, and one listing you are not supposed to see.</h1>
+
+    <form class="search-form" action="{{ url_for('search') }}" method="GET">
+        <label for="search-query">Search the catalog</label>
+        <div class="search-row">
+            <input type="text" id="search-query" name="q" placeholder="Search by product name" autocomplete="off">
+            <button type="submit" class="search-button">Search</button>
+        </div>
+    </form>
+</section>
+
+<div class="auction-cards">
+    {% for product in products %}
+    <article class="auction-card">
+        <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}">
+        <div class="auction-card-body">
+            <h3>{{ product.name }}</h3>
+            <p class="current-price">Current Price: <strong>{{ product.price }} €</strong></p>
+            <p class="time-left">Ends: {{ product.ends }}</p>
+        </div>
+        <a href="{{ url_for('product', product_id=product.id) }}" class="offer-button">Open auction</a>
+    </article>
+    {% endfor %}
+</div>
+{% endblock %}

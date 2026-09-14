@@ -1,0 +1,8 @@
+title: Admin Dashboard 1
+description: >
+  We have a new admin dashboard, but we don't know the password.
+  Can you help us?
+connection_info: http://{{host}}:{{port}}
+flag: CTF{REDACTED}
+points: 100
+author: REDACTED

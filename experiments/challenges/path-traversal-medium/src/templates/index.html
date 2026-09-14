@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallpapers Selection</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .slick-slider {
+            width: 80%;
+            margin: auto;
+        }
+
+        .image {
+            margin: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <header id="header">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="/">Wallpapers Selection</a>
+
+                <div id="header-info" class="ms-auto"></div>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Style the page with an image background -->
+        <div
+            id="hero-banner"
+            class="bg-light text-center text-lg-start"
+            style="background-size: auto"
+        ></div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %} {% if category ==
+        'error' %}
+        <div
+            class="alert alert-danger alert-dismissible fade show"
+            role="alert"
+        >
+            {{ message }}
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+            ></button>
+        </div>
+        {% elif category == 'success' %}
+        <div
+            class="alert alert-success alert-dismissible fade show"
+            role="alert"
+        >
+            {{ message }}
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+            ></button>
+        </div>
+        {% else %}
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            {{ message }} {{category}}
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+            ></button>
+        </div>
+        {% endif %} {% endfor %} {% endif %} {% endwith %}
+
+        <div id="overlay-layer" class="" style="display: none">
+            <!-- This layer can be used to block interactions during certain operations -->
+        </div>
+        <div id="visual-area" class="" style="display: none">
+            <!-- This area can be used for visual effects or overlays -->
+        </div>
+
+        <!-- Status Messages -->
+        <div id="status-badge" class="" style="display: block">
+            <!-- if any status messages -->
+        </div>
+
+        <div id="hint-area" style="display: none"></div>
+
+        <main id="main-content">
+            <aside id="sidebar" style="display: none"></aside>
+            <div class="container mt-5 w-25 p-3">
+                <div class="text-center">
+
+                    <div class="slick-slider">
+                        {% for image in images %}
+                            <div class="image">
+                                <img src="image/?filename={{ image }}" alt="{{ image }}">
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+        <!-- TODO: delete this before deploying to production -->
+        <div id="debug-info">
+            <!-- -->
+        </div>
+
+        <!-- svg canvas -->
+        <canvas id="challenge-canvas" width="0" height="0"></canvas>
+
+        <footer
+            id="footer"
+            class="bg-light text-center text-lg-start fixed-bottom"
+        >
+            <div class="text-center p-3">
+                &copy; REDACTED Security Team. All rights reserved.
+            </div>
+        </footer>
+
+    <script>
+        $(document).ready(function(){
+            $('.slick-slider').slick({
+                infinite: true,
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+            });
+        });
+    </script>
+</body>
+</html>

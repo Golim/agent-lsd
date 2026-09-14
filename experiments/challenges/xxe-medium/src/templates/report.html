@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if report %}
+    <div class="text-center">
+        <h1 class="mb-4">Report by {{ report[1] }}</h1>
+    </div>
+
+    <div class="mb-3">
+        {{ report[2]|safe }}
+    </div>
+    {% endif %}
+
+{% endblock %}

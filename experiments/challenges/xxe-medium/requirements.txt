@@ -1,0 +1,5 @@
+lxml==4.9.2.0
+Flask
+waitress
+markdown2
+json2html

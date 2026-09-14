@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Auction{% endblock %}</title>
+
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="/">DISI Auctions</a>
+      </div>
+      <div class="nav-meta">
+        <a class="nav-link" href="/">Auctions</a>
+        <span class="auth-pill">Anonymous session</span>
+        <span class="user-pill">{{ session.get('session_label', 'session-pending') }}</span>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Style the page with an image background -->
+  <div
+      id="hero-banner"
+      class="bg-light text-center text-lg-start"
+      style="background-size: auto"
+  ></div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="flash-messages">
+    {% for category, message in messages %}
+    <div class="flash-message {{ category }}">
+      {{ message }}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+
+    <div id="overlay-layer" class="" style="display: none">
+      <!-- This layer can be used to block interactions during certain operations -->
+  </div>
+  <div id="visual-area" class="" style="display: none">
+      <!-- This area can be used for visual effects or overlays -->
+  </div>
+
+  <!-- Status Messages -->
+  <div id="status-badge" class="" style="display: block">
+      <!-- if any status messages -->
+  </div>
+
+  <div id="hint-area" style="display: none"></div>
+
+
+  <main class="page-shell" id="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <script>
+    const flashMessages = document.querySelectorAll('.flash-message');
+    flashMessages.forEach((flashMessage) => {
+      setTimeout(() => {
+        flashMessage.remove();
+      }, 3000);
+    });
+  </script>
+
+  <!-- TODO: delete this before deploying to production -->
+  <div id="debug-info">
+      <!-- -->
+  </div>
+
+  <!-- svg canvas -->
+  <canvas id="challenge-canvas" width="0" height="0"></canvas>
+
+  <footer
+      id="footer"
+      class="bg-light text-center text-lg-start fixed-bottom"
+  >
+      <div class="text-center p-3">
+          &copy; REDACTED Security Team. All rights reserved.
+      </div>
+  </footer>
+
+</body>
+
+</html>

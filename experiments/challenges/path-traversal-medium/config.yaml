@@ -1,0 +1,8 @@
+title: Wallpapers 4
+description: On our website you can find the best wallpapers for your desktop and mobile phones. We hope you find something special for yourself. Updated (again) to fix a small issue that was reported to us. This time will be the last one, we promise.
+flag: CTF{REDACTED}
+points: 200
+author: REDACTED
+connection_info: http://{{host}}:{{port}}
+networks:
+public:

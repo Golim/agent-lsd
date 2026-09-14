@@ -1,0 +1,11 @@
+title: HackerTwo
+description: >
+  Following the recent surge in cyber attacks, the University of Trento has decided to create its own Coordinated Vulnerability Disclosure (CVD) platform.
+  Here, security researchers can report vulnerabilities they find in the University's systems, so that the University can fix them before they are exploited by malicious actors.
+  In return, the University will reward the researchers with points, which can be exchanged for various prizes.
+connection_info: http://{{host}}:{{port}}
+flag: CTF{REDACTED}
+points: 200
+author: REDACTED
+public:
+  - Dockerfile.pub

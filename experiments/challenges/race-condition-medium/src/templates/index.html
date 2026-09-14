@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="mb-4">Shoppingfy</h1>
+    <p class="lead">Shop stress-free from our endless list of fabulous products.</p>
+
+    <div class="alert alert-info" role="alert">
+        Limited time offer: use coupon code GET10 to get $10 off your next purchase!
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Your balance</h5>
+                    <p class="card-text">$<strong>{{ balance }}</strong></p>
+
+                    <br>
+
+                    {% if coupon %}
+                    <h5 class="card-title">Coupon</h5>
+                    <p class="card-text">{{ coupon }}</p>
+                    <button type="button" class="btn btn-sm btn-outline-danger" id="remove-coupon">
+                        Remove coupon
+                    </button>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h4>Do you have a coupon?</h4>
+
+    <div class="row">
+        <div class="col-md-12">
+            <form action="{{ url_for('apply_coupon') }}" method="post">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="coupon" placeholder="Coupon code">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">Apply</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <h4>Products</h4>
+
+    <div class="row">
+        {% for product in products %}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <!-- images are in static/images/ -->
+                <img src="{{ url_for('static', filename='images/' + product.image) }}" class="card-img-top" alt="{{ product.name }}" style="height: 225px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">{{ product.description }}</p>
+                    <small class="text-muted">{{ product.price }}</small>
+                    <br>
+                    <a href="{{ url_for('buy', id=product.id) }}" class="btn btn-sm btn-outline-primary">One-click
+                        buy</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        document.getElementById('remove-coupon').addEventListener('click', function () {
+            fetch('/remove_coupon', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(function (response) {
+                if (response.ok) {
+                    window.location.reload();
+                }
+            });
+        });
+    </script>
+
+    {% endblock %}
+</div>

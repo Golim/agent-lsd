@@ -1,0 +1,8 @@
+title: Online Calculator
+description: This online calculator finally makes math **easy**. Plus, it is free forever, promised! It also has a dark mode (TODO implement the dark mode).
+connection_info: http://{{host}}:{{port}}
+flag: CTF{REDACTED}
+points: 300
+author: REDACTED
+networks: []
+public:

@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}FontsShop{% endblock %}
+
+{% block content %}
+<style>
+    @font-face {
+        font-family: "Sneaky-Times";
+        src: url("fonts/Sneaky-Times.woff2") format("woff2");
+    }
+
+    .wrapper {
+        max-width: 100%;
+        overflow: hidden;
+    }
+
+    .marquee {
+        white-space: nowrap;
+        overflow: hidden;
+        display: inline-block;
+        animation: marquee 180s linear infinite;
+    }
+
+    .marquee p {
+        display: inline-block;
+        font-family: "Sneaky-Times";
+        font-size: 30em;
+    }
+
+    @keyframes marquee {
+        0% {
+            transform: translate3d(0, 0, 0);
+        }
+
+        100% {
+            transform: translate3d(-50%, 0, 0);
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="text-center mb-5">
+        <h1 style="font-family: Sneaky-Times; font-size: 4em; margin-bottom: 2rem; text-shadow: 0 4px 8px rgba(0,0,0,0.1);">Sneaky Times</h1>
+        <p class="lead" style="font-size: 1.3rem; color: #6a737d; max-width: 600px; margin: 0 auto;">Discover the perfect typography for your creative projects with our premium font collection.</p>
+    </div>
+
+    <div class="wrapper">
+        <div class="marquee">
+            <p>
+                Sneaky Times - Sneaky Times - Sneaky Times - Sneaky Times - Sneaky Times - Sneaky Times -
+                Sneaky Times - Sneaky Times - Sneaky Times -&nbsp;
+            </p>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);">
+                <div class="card-body p-4">
+                    <h4 class="card-title text-center mb-4" style="color: #4a5568;">Download Sneaky Times Font</h4>
+                    <form action="/download-font" method="post">
+                        <div class="input-group mb-3" style="height: 60px;">
+                            <input type="hidden" name="font" value="Sneaky-Times.woff2" class="form-control" required>
+                            <input type="password" class="form-control" placeholder="Enter your password" id="password" name="password" aria-label="Password" style="font-size: 1.1rem; height: 100%;">
+                            <button class="btn btn-outline-success" type="submit" style="height: 100%; padding: 0 2rem; font-weight: 600;">
+                                ⬇️ Download Font
+                            </button>
+                        </div>
+                    </form>
+                    <div class="text-center mt-3">
+                        <small class="text-muted">Need a password? Purchase a license to get access!</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Font copyright -->
+<div class="container mt-5">
+    <div class="card glass" style="background: rgba(255, 255, 255, 0.1); text-align: center;">
+        <div class="card-body">
+            <p class="mb-0" style="color: #6a737d; font-weight: 500;">📝 Font licenses are packaged into the zip files.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

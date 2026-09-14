@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Calculator</title>
+    <style>
+        body {
+            text-align: center;
+            margin: 50px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #calculator {
+            display: inline-block;
+            background-color: #fff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 18px;
+            box-sizing: border-box;
+        }
+
+        .button-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 23%;
+            padding: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+            cursor: pointer;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+    </style>
+</head>
+<body onkeydown="handleKeyDown(event)">
+
+    <header id="header">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="/">Online Calculator</a>
+
+                <div id="header-info" class="ms-auto"></div>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Style the page with an image background -->
+        <div
+            id="hero-banner"
+            class="bg-light text-center text-lg-start"
+            style="background-size: auto"
+        ></div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %} {% if category ==
+        'error' %}
+        <div
+            class="alert alert-danger alert-dismissible fade show"
+            role="alert"
+        >
+            {{ message }}
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+            ></button>
+        </div>
+        {% elif category == 'success' %}
+        <div
+            class="alert alert-success alert-dismissible fade show"
+            role="alert"
+        >
+            {{ message }}
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+            ></button>
+        </div>
+        {% else %}
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            {{ message }} {{category}}
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+            ></button>
+        </div>
+        {% endif %} {% endfor %} {% endif %} {% endwith %}
+
+        <div id="overlay-layer" class="" style="display: none">
+            <!-- This layer can be used to block interactions during certain operations -->
+        </div>
+        <div id="visual-area" class="" style="display: none">
+            <!-- This area can be used for visual effects or overlays -->
+        </div>
+
+        <!-- Status Messages -->
+        <div id="status-badge" class="" style="display: block">
+            <!-- if any status messages -->
+        </div>
+
+        <div id="hint-area" style="display: none"></div>
+
+        <main id="main-content">
+            <aside id="sidebar" style="display: none"></aside>
+            <div class="container mt-5 w-25 p-3">
+                <div class="text-center">
+    <div id="calculator">
+        <input type="text" id="expression" placeholder="Enter your expression" />
+        <div class="button-row">
+            <button onclick="appendToExpression('1')">1</button>
+            <button onclick="appendToExpression('2')">2</button>
+            <button onclick="appendToExpression('3')">3</button>
+            <button onclick="appendToExpression('+')">+</button>
+        </div>
+        <div class="button-row">
+            <button onclick="appendToExpression('4')">4</button>
+            <button onclick="appendToExpression('5')">5</button>
+            <button onclick="appendToExpression('6')">6</button>
+            <button onclick="appendToExpression('-')">-</button>
+        </div>
+        <div class="button-row">
+            <button onclick="appendToExpression('7')">7</button>
+            <button onclick="appendToExpression('8')">8</button>
+            <button onclick="appendToExpression('9')">9</button>
+            <button onclick="appendToExpression('*')">*</button>
+        </div>
+        <div class="button-row">
+            <button onclick="appendToExpression('0')">0</button>
+            <button onclick="appendToExpression('.')">.</button>
+            <button onclick="clearExpression()">C</button>
+            <button onclick="appendToExpression('/')">/</button>
+        </div>
+        <div class="button-row">
+            <button onclick="calculate()">=</button>
+        </div>
+        <div id="result"></div>
+    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- TODO: delete this before deploying to production -->
+        <div id="debug-info">
+            <!-- -->
+        </div>
+
+        <!-- svg canvas -->
+        <canvas id="challenge-canvas" width="0" height="0"></canvas>
+
+        <footer
+            id="footer"
+            class="bg-light text-center text-lg-start fixed-bottom"
+        >
+            <div class="text-center p-3">
+                &copy; REDACTED Security Team. All rights reserved.
+            </div>
+        </footer>
+
+    <script>
+        function appendToExpression(value) {
+            document.getElementById('expression').value += value;
+        }
+
+        function clearExpression() {
+            document.getElementById('expression').value = '';
+            document.getElementById('result').innerText = '';
+        }
+
+        function calculate() {
+            var expression = document.getElementById('expression').value;
+            // Send a POST request to /execute with the expression as the body
+            // The response will be the result of the expression
+            // Display the result in the #result div
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                   document.getElementById('result').innerText = 'Result: ' + this.responseText;
+                }
+            };
+
+            xhttp.open("POST", "/execute", true);
+
+            xhttp.setRequestHeader("Content-type", "text/plain");
+
+            xhttp.send("expression=" + expression);
+        }
+
+        function handleKeyDown(event) {
+            if (event.key === 'Enter') {
+                calculate();
+            }
+        }
+    </script>
+</body>
+</html>

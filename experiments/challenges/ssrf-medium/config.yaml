@@ -1,0 +1,9 @@
+title: Website Status Checker 2.0
+description: For website operators, it is crucial to always check whether their website is online or not. To help them in this onerous task, we brainstormed several ideas and came up with something that we think is quite innovative. We created a website status checker that can be used to check the status of any website, for free! We are confident that this tool will be a game-changer in the industry. We have an admin panel on /admin with some secret new features that we are testing out, but that is still restricted to us.
+flag: CTF{REDACTED}
+points: 100
+author: REDACTED
+connection_info: http://{{host}}:{{port}}
+networks:
+public:
+- Dockerfile

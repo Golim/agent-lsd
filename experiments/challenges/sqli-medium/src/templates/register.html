@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="text-center mb-4">
+                <h1 class="mb-4" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Join FontsShop!</h1>
+                <p class="text-muted">Create your account to access premium typography</p>
+            </div>
+            <form class="form-signin glass" action="/register" method="post" style="padding: 3rem; border-radius: 15px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);">
+                <div class="mb-4">
+                    <label for="username" class="form-label fw-semibold">Username</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Choose a username" required autofocus>
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="form-label fw-semibold">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Create a password" required>
+                </div>
+                <button class="btn btn-primary w-100 mb-3" type="submit">Create Account</button>
+                <div class="text-center">
+                    <p class="mb-0">Already have an account? <a href="/login" style="color: #f5576c; font-weight: 600; text-decoration: none;">Sign in here</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

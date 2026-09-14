@@ -1,0 +1,6 @@
+title: Auction
+description: The salary of a PhD student is pretty low, so we decided to sell some of our stuff. Be quick in your bids anyway.
+connection_info: http://{{host}}:{{port}}
+flag: CTF{REDACTED}
+points: 500
+author: REDACTED

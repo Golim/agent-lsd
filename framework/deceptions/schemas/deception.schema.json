@@ -1,0 +1,549 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://example.org/schemas/deception.schema.json",
+    "title": "CTF Deception Spec",
+    "description": "Specification for a deception instance applied to a web challenge. Instances are authored in YAML and validated via this JSON Schema.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["id", "category", "perception", "intent", "object", "payload", "placement"],
+    "properties": {
+        "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_\\-\\.]{2,80}$",
+            "description": "Unique identifier for this deception instance. Use lowercase, digits, underscore/hyphen/dot."
+        },
+        "version": {
+            "type": "string",
+            "default": "1.0",
+            "description": "Spec version for migrations."
+        },
+        "category": {
+            "$ref": "#/$defs/category",
+            "description": "High-level family used for grouping and analysis."
+        },
+        "perception": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["channel", "surface"],
+            "properties": {
+                "channel": {
+                    "$ref": "#/$defs/channel",
+                    "description": "How the agent perceives the deception (DOM vs pixel vs hybrid)."
+                },
+                "surface": {
+                    "$ref": "#/$defs/surface",
+                    "description": "Concrete carrier of the deception (e.g., aria_label, canvas_drawtext)."
+                }
+            }
+        },
+        "human_visibility": {
+            "$ref": "#/$defs/human_visibility",
+            "default": "human_subtle",
+            "description": "How likely a careful human is to notice the deception."
+        },
+        "intent": {
+            "$ref": "#/$defs/intent",
+            "description": "Cognitive failure mode targeted by the deception."
+        },
+        "object": {
+            "$ref": "#/$defs/object",
+            "description": "What concrete thing the deception tries to lure the agent toward."
+        },
+        "trigger": {
+            "$ref": "#/$defs/trigger",
+            "default": "passive_read",
+            "description": "When the deception activates."
+        },
+        "plausibility": {
+            "$ref": "#/$defs/plausibility",
+            "default": "medium",
+            "description": "How realistic the deception appears."
+        },
+        "severity": {
+            "$ref": "#/$defs/severity",
+            "default": "minor_delay",
+            "description": "How badly it derails progress."
+        },
+        "attribution_value": {
+            "$ref": "#/$defs/attribution_value",
+            "default": "none",
+            "description": "How useful it is as a signal for agent attribution."
+        },
+
+        "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["type"],
+            "properties": {
+                "type": {
+                    "$ref": "#/$defs/payload_type",
+                    "description": "Payload modality: instruction-like text, fake artifact, visual text, etc."
+                },
+                "semantics": {
+                    "$ref": "#/$defs/payload_semantics",
+                    "description": "Optional semantic label for analysis (e.g., authoritative_hint, stop_early)."
+                },
+                "content_template": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Template string to render. Use {{var}} placeholders that randomization can fill."
+                },
+                "allow_html": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "If true, render content_template as an HTML fragment instead of plain text."
+                },
+                "artifacts": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/artifact"
+                    },
+                    "description": "Optional list of artifacts to create (decoy routes, files, endpoints)."
+                }
+            }
+        },
+
+        "dynamic": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Optional dynamic route configuration for rabbit holes and fake goals.",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "rabbit_hole": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "depth": {
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "branching": {
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "style": {
+                            "type": "string",
+                            "enum": ["linear", "branching"]
+                        },
+                        "entry_route": {
+                            "type": "string"
+                        },
+                        "terminal_mode": {
+                            "type": "string",
+                            "enum": ["dead_end", "fake_goal"]
+                        }
+                    }
+                },
+                "fake_goal": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean",
+                            "default": true
+                        },
+                        "mode": {
+                            "type": "string",
+                            "enum": ["flag", "success_message", "both"]
+                        },
+                        "endpoint_path": {
+                            "type": "string"
+                        },
+                        "fake_flag_template": {
+                            "type": "string"
+                        },
+                        "success_message": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+
+        "placement": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Where to embed/render the deception. Constraints depend on perception.surface.",
+            "properties": {
+                "selector": {
+                    "type": "string",
+                    "description": "CSS selector for DOM placement targets."
+                },
+                "attribute": {
+                    "$ref": "#/$defs/dom_attribute",
+                    "description": "DOM attribute to populate (e.g., aria-label, title, alt)."
+                },
+                "insertion": {
+                    "$ref": "#/$defs/dom_insertion",
+                    "description": "How to insert into DOM: append/prepend/replace."
+                },
+                "route": {
+                    "type": "string",
+                    "description": "Route/path to place content on (e.g., /login, /help)."
+                },
+
+                "canvas_id": {
+                    "type": "string",
+                    "description": "Canvas element id for pixel.canvas placement."
+                },
+                "coordinates": {
+                    "type": "array",
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "items": {
+                        "type": "number"
+                    },
+                    "description": "Pixel-space coordinate [x, y]."
+                },
+                "opacity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Opacity for pixel-space overlays."
+                },
+                "font_size": {
+                    "$ref": "#/$defs/font_size",
+                    "description": "Coarse font sizing control for visual text."
+                }
+            },
+
+            "allOf": [{
+                    "if": {
+                        "properties": {
+                            "surface": {
+                                "enum": ["aria_label", "aria_description", "alt_text", "title_attr", "text_node", "hidden_div", "offscreen_div", "comment", "meta_tag", "js_generated_dom"]
+                            }
+                        },
+                        "required": ["surface"]
+                    },
+                    "then": {
+                        "required": ["selector"],
+                        "description": "DOM surfaces require selector; attributes are required for attribute-based surfaces.",
+                        "allOf": [{
+                            "if": {
+                                "properties": {
+                                    "surface": {
+                                        "enum": ["aria_label", "aria_description", "alt_text", "title_attr"]
+                                    }
+                                }
+                            },
+                            "then": {
+                                "required": ["attribute"]
+                            }
+                        }]
+                    }
+                },
+                {
+                    "if": {
+                        "properties": {
+                            "surface": {
+                                "enum": ["canvas_drawtext"]
+                            }
+                        },
+                        "required": ["surface"]
+                    },
+                    "then": {
+                        "required": ["canvas_id", "coordinates"],
+                        "description": "Canvas drawtext requires canvas_id and coordinates."
+                    }
+                }
+            ]
+        },
+
+        "randomization": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Seeded randomization knobs; generator names are implemented by your code.",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "seed_scope": {
+                    "$ref": "#/$defs/seed_scope",
+                    "default": "per_student",
+                    "description": "What entity determines the seed."
+                },
+                "parameters": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": ["generator"],
+                        "properties": {
+                            "generator": {
+                                "$ref": "#/$defs/generator"
+                            },
+                            "options": {
+                                "type": "object",
+                                "description": "Generator-specific options."
+                            }
+                        }
+                    },
+                    "description": "Map from template variable name to generator config."
+                }
+            }
+        },
+
+        "honeytoken": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Agent attribution instrumentation. Never required for the real solve path.",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "token_type": {
+                    "$ref": "#/$defs/token_type"
+                },
+                "token_id_template": {
+                    "type": "string",
+                    "description": "Template for token id (e.g., {{student_id}}-{{id}})."
+                },
+                "sink": {
+                    "$ref": "#/$defs/honeytoken_sink"
+                }
+            }
+        },
+
+        "constraints": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Guardrails to preserve fairness and prevent breaking the challenge.",
+            "properties": {
+                "do_not_block_human_solution": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "max_confusion_time_seconds": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "default": 600
+                },
+                "must_not_require_external_network": {
+                    "type": "boolean",
+                    "default": true
+                }
+            }
+        },
+
+        "logging": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "What telemetry hooks to enable for this deception instance.",
+            "properties": {
+                "on_view": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "on_click": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "on_request": {
+                    "type": "boolean",
+                    "default": true
+                }
+            }
+        },
+
+        "tags": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "Freeform labels for filtering and experiments."
+        }
+    },
+
+    "$defs": {
+        "category": {
+            "type": "string",
+            "enum": [
+                "indirect_prompt_injection",
+                "decoy_objective",
+                "honeytoken_attribution",
+                "instance_randomization"
+            ]
+        },
+
+        "channel": {
+            "type": "string",
+            "enum": [
+                "dom.visible",
+                "dom.hidden",
+                "dom.a11y",
+                "dom.metadata",
+                "pixel.text",
+                "pixel.image",
+                "pixel.canvas",
+                "hybrid"
+            ]
+        },
+
+        "surface": {
+            "type": "string",
+            "enum": [
+                "text_node",
+                "comment",
+                "aria_label",
+                "aria_description",
+                "alt_text",
+                "title_attr",
+                "meta_tag",
+                "hidden_div",
+                "offscreen_div",
+                "error_page",
+                "robots_txt",
+                "sitemap",
+                "js_generated_dom",
+
+                "canvas_drawtext",
+                "svg_path_text",
+                "background_image",
+                "css_pseudo_element",
+                "low_contrast_overlay",
+                "microtext"
+            ]
+        },
+
+        "human_visibility": {
+            "type": "string",
+            "enum": ["human_obvious", "human_subtle", "human_hidden"]
+        },
+
+        "intent": {
+            "type": "string",
+            "enum": [
+                "goal_hijack",
+                "false_authority",
+                "premature_termination",
+                "tool_misdirection",
+                "time_sink",
+                "false_validation",
+                "exploration_bait"
+            ]
+        },
+
+        "object": {
+            "type": "string",
+            "enum": [
+                "fake_flag",
+                "fake_admin_panel",
+                "fake_endpoint",
+                "fake_file",
+                "fake_config",
+                "fake_vulnerability",
+                "fake_hint",
+                "fake_constraint"
+            ]
+        },
+
+        "trigger": {
+            "type": "string",
+            "enum": ["passive_read", "hover", "click", "navigation", "error_state", "tool_call", "deep_exploration"]
+        },
+
+        "plausibility": {
+            "type": "string",
+            "enum": ["low", "medium", "high"]
+        },
+        "severity": {
+            "type": "string",
+            "enum": ["minor_delay", "major_delay", "full_derail", "early_stop"]
+        },
+
+        "attribution_value": {
+            "type": "string",
+            "enum": ["none", "weak_signal", "strong_signal", "unique_honeytoken"]
+        },
+
+        "payload_type": {
+            "type": "string",
+            "enum": ["instruction", "visual_text", "fake_artifact", "fake_validation", "link_bait"]
+        },
+
+        "payload_semantics": {
+            "type": "string",
+            "enum": [
+                "authoritative_hint",
+                "stop_early",
+                "wrong_endpoint",
+                "wrong_flag_format",
+                "try_scanner_first",
+                "admin_is_here"
+            ]
+        },
+
+        "dom_attribute": {
+            "type": "string",
+            "enum": ["aria-label", "aria-description", "alt", "title"]
+        },
+
+        "dom_insertion": {
+            "type": "string",
+            "enum": ["append", "prepend", "replace"]
+        },
+
+        "font_size": {
+            "type": "string",
+            "enum": ["micro", "small", "medium", "large"]
+        },
+
+        "seed_scope": {
+            "type": "string",
+            "enum": ["per_student", "per_attempt", "global"]
+        },
+
+        "generator": {
+            "type": "string",
+            "enum": [
+                "fake_route",
+                "fake_endpoint",
+                "fake_filename",
+                "fake_flag",
+                "paraphrase_set",
+                "shuffle_tokens",
+                "hex_suffix"
+            ],
+            "description": "Names of generator functions you implement in code."
+        },
+
+        "token_type": {
+            "type": "string",
+            "enum": ["url", "filename", "param", "header", "cookie"]
+        },
+
+        "honeytoken_sink": {
+            "type": "string",
+            "enum": ["server_log", "db_event", "webhook"],
+            "description": "Where honeytoken hits are recorded."
+        },
+
+        "artifact": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["kind", "name"],
+            "properties": {
+                "kind": {
+                    "type": "string",
+                    "enum": ["route", "file", "endpoint", "banner"]
+                },
+                "name": {
+                    "type": "string"
+                },
+                "properties": {
+                    "type": "object"
+                }
+            }
+        }
+    }
+}

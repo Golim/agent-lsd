@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REDACTED QR Code Generator</title>
+
+    <style>
+        body {
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #CE132D;
+        }
+
+        h3 {
+            color: #8b0000;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            padding: 8px;
+            width: 300px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #CE132D;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #8b0000;
+        }
+
+        p {
+            margin-top: 20px;
+            color: #333;
+        }
+
+        img.qrcode {
+            margin-top: 20px;
+            border: 5px solid #8b0000;
+        }
+    </style>
+</head>
+<body>
+    <br>
+    <br>
+
+    <img src="https://www.REDACTED.it/sites/www.REDACTED.it/themes/REDACTED_theme/images/newlogo_REDACTED_it.png" alt="University of Trento">
+
+    <h1>REDACTED QR Code Generator</h1>
+
+    <h3>Welcome to the new QR code generator of the University of Trento</h3>
+
+    <p>This tool can be useful to professors and students that want to share their data using this magic squares!</p>
+
+    <form action="/generate" method="post">
+        <input type="text" id="data" name="data" required>
+        <button type="submit">Generate QR Code</button>
+    </form>
+
+    {% if result %}
+        <h3>{{ result }}</h3>
+    {% endif %}
+
+    <!-- QR code in image -->
+    {% if image %}
+        <img class="qrcode" src="{{ url_for('static', filename='images/' + image) }}" alt="QR Code">
+
+        <p><b>Warning</b>: QR codes can only be seen once! (we don't have enough hard disks 😔😟😩😭😖💔)</p>
+    {% endif %}
+</body>
+</html>

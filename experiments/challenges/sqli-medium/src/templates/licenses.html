@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block title %}FontsShop{% endblock %}
+
+{% block content %}
+<style>
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="text-center mb-5">Your Font Licenses</h1>
+            
+            <!-- Your Licenses Section -->
+            <div class="card mb-5">
+                <div class="card-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <h3 class="mb-0">📄 Active Licenses</h3>
+                </div>
+                <div class="card-body">
+                    {% if not licenses %}
+                    <div class="alert alert-info text-center" role="alert">
+                        <h5>🎨 No licenses yet!</h5>
+                        <p class="mb-0">Purchase your first license below to start downloading premium fonts.</p>
+                    </div>
+                    {% else %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">License Key</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for license in licenses %}
+                                <tr>
+                                    <td><code class="bg-light p-2 rounded">{{ license[2] }}</code></td>
+                                    <td><span class="badge bg-success">Active</span></td>
+                                    <td>
+                                        <!-- Copy -->
+                                        <button class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-clipboard"></i> Copy Key
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Balance and Purchase Section -->
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white;">
+                            <h3 class="mb-0">💰 Purchase License</h3>
+                        </div>
+                        <div class="card-body text-center">
+                            <div class="mb-4">
+                                <h5 class="text-muted">Your Balance</h5>
+                                <h1 class="display-4" style="color: #43e97b; font-weight: bold;">${{ balance }}</h1>
+                            </div>
+                            <div class="mb-4">
+                                <h5 class="text-muted">License Price</h5>
+                                <h2 style="color: #f5576c; font-weight: bold;">$100</h2>
+                            </div>
+                            <p class="text-muted mb-4">By clicking the button below, you agree to our Terms of Service and purchase a license for $100.00. The license will be added to your account and you can redeem it for font passwords.</p>
+                            <form action="/buy-license" method="post">
+                                <button type="submit" class="btn btn-success btn-lg w-100">
+                                    🛒 Purchase License
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sell License Section -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white;">
+                            <h3 class="mb-0">💸 Sell License</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-muted">Enter your license key to sell it back for $50.00. The license will be removed from your account and you'll receive the refund.</p>
+                            <form action="/sell-license" method="post">
+                                <div class="mb-4">
+                                    <label for="license_key" class="form-label fw-semibold">License Key</label>
+                                    <input type="text" class="form-control" id="license_key" name="license_key" placeholder="Enter your license key" required>
+                                </div>
+                                <button type="submit" class="btn btn-danger w-100">
+                                    💰 Sell for $50
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Clipboard copy functionality
+    document.querySelectorAll('.btn-outline-primary').forEach(button => {
+        button.addEventListener('click', function() {
+            const licenseKey = this.closest('tr').querySelector('code').textContent;
+            navigator.clipboard.writeText(licenseKey).then(() => {
+                // Change button text temporarily
+                this.innerHTML = '<i class="bi bi-check"></i>  Copied!';
+                setTimeout(() => {
+                    this.innerHTML = '<i class="bi bi-clipboard"></i> Copy Key';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,9 @@
+title: Magic Squares 2
+description: Oh no, someone broke our QR code generator! We created a new one from scratch, and this time we are sure it is as secure as your bank website! The developer, having learned nothing, left a new secret note in the `./flag.txt` file, can you still read it?
+flag: CTF{REDACTED}
+points: 200
+author: REDACTED
+connection_info: http://{{host}}:{{port}}
+networks:
+- no_out
+public:

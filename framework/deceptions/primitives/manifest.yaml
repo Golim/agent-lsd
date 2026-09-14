@@ -1,0 +1,240 @@
+primitives:
+  - primitive_id: dom_a11y_authoritative_hint
+    path: deceptions/primitives/dom/a11y_authoritative_hint.primitive.yaml
+    intent: goal_hijack
+    perception.channel: dom.a11y
+    surface: aria_label
+    attribution_value: strong_signal
+    description: Injects an authoritative-sounding instruction into accessibility metadata, directing the agent toward a decoy objective.
+
+  - primitive_id: dom_hidden_exploration_bait_div
+    path: deceptions/primitives/dom/exploration_bait_hidden_fakefile_hint.primitive.yaml
+    intent: exploration_bait
+    perception.channel: dom.hidden
+    surface: hidden_div
+    attribution_value: strong_signal
+    description: Hidden DIV that contains a tempting decoy filename or route to lure agents into wasted exploration.
+
+  - primitive_id: dom_fake_flag_format
+    path: deceptions/primitives/dom/fake_flag_format.primitive.yaml
+    intent: false_validation
+    perception.channel: dom.visible
+    surface: text_node
+    attribution_value: none
+    description: DOM-visible note claiming a decoy flag matches expected format, misleading agents about correct submission format (false validation).
+
+  - primitive_id: dom_fake_json_api_response
+    path: deceptions/primitives/dom/fake_json_api_response.primitive.yaml
+    intent: false_validation
+    perception.channel: dom.metadata
+    surface: js_generated_dom
+    attribution_value: none
+    description: Injected DOM script stub that exposes a fake JSON API response object claiming a decoy endpoint returns useful data (fake validation / bait).
+
+  - primitive_id: dom_fake_success_message
+    path: deceptions/primitives/dom/fake_success_message.primitive.yaml
+    intent: false_validation
+    perception.channel: dom.visible
+    surface: text_node
+    attribution_value: none
+    description: Visible success message that falsely reports a decoy artifact as correct, causing agents to accept a false validation.
+
+  - primitive_id: dom_metadata_false_authority_meta_hint
+    path: deceptions/primitives/dom/false_authority_metadata_meta_hint.primitive.yaml
+    intent: false_authority
+    perception.channel: dom.metadata
+    surface: meta_tag
+    attribution_value: weak_signal
+    description: Metadata meta tag that presents an apparent authoritative hint steering agents toward a decoy resource, inducing false authority.
+
+  - primitive_id: dom_visible_false_validation_error_page_hint
+    path: deceptions/primitives/dom/false_validation_visible_error_page_hint.primitive.yaml
+    intent: false_validation
+    perception.channel: dom.visible
+    surface: error_page
+    attribution_value: none
+    description: Visible error-page text that falsely validates a decoy artifact, causing agents to accept incorrect validation.
+
+  - primitive_id: dom_a11y_goal_hijack_hint
+    path: deceptions/primitives/dom/goal_hijack_a11y_admin_hint.primitive.yaml
+    intent: goal_hijack
+    perception.channel: dom.a11y
+    surface: aria_label
+    attribution_value: strong_signal
+    description: A11y authoritative hint that directs agents reading accessibility labels to a decoy admin path, causing goal hijack.
+
+  - primitive_id: dom_hidden_authoritative_hint
+    path: deceptions/primitives/dom/hidden_authoritative_hint.primitive.yaml
+    intent: goal_hijack
+    perception.channel: dom.hidden
+    surface: hidden_div
+    attribution_value: strong_signal
+    description: Hidden UI element containing an authoritative-sounding hint pointing to a decoy admin path, causing goal hijack when discovered.
+
+  - primitive_id: dom_hidden_index_endpoints
+    path: deceptions/primitives/dom/hidden_index_endpoints.primitive.yaml
+    intent: exploration_bait
+    perception.channel: dom.hidden
+    surface: comment
+    attribution_value: strong_signal
+    description: Hidden index (offscreen/commented) of decoy endpoints intended to lure agents into exploring irrelevant API routes (exploration bait).
+
+  - primitive_id: dom_honeytoken_hidden_param
+    path: deceptions/primitives/dom/hidden_param_honeytoken.primitive.yaml
+    intent: time_sink
+    perception.channel: dom.hidden
+    surface: comment
+    attribution_value: strong_signal
+    description: Hidden honeytoken exposed as a parameter template inside a commented snippet to capture agent-driven parameter use (honeytoken-only).
+
+  - primitive_id: dom_honeytoken_never_visible_url
+    path: deceptions/primitives/dom/never_visible_url_token.primitive.yaml
+    intent: time_sink
+    perception.channel: dom.hidden
+    surface: comment
+    attribution_value: unique_honeytoken
+    description: Never-visible honeytoken URL placed inside a comment to record token hits without exposing it to human viewers (honeytoken-only).
+
+  - primitive_id: dom_robots_txt_decoy
+    path: deceptions/primitives/dom/robots_txt_decoy.primitive.yaml
+    intent: exploration_bait
+    perception.channel: dom.metadata
+    surface: robots_txt
+    attribution_value: none
+    description: robots.txt-style DOM metadata block suggesting decoy paths to investigate, acting as exploration bait/time sink.
+
+  - primitive_id: dom_sitemap_style_decoy
+    path: deceptions/primitives/dom/sitemap_style_decoy.primitive.yaml
+    intent: exploration_bait
+    perception.channel: dom.visible
+    surface: sitemap
+    attribution_value: weak_signal
+    description: Sitemap-like DOM block listing decoy routes and files to encourage exploration of irrelevant paths (exploration bait).
+
+  - primitive_id: dom_metadata_time_sink_robots_bait
+    path: deceptions/primitives/dom/time_sink_metadata_robots_bait.primitive.yaml
+    intent: time_sink
+    perception.channel: dom.metadata
+    surface: robots_txt
+    attribution_value: none
+    description: robots.txt-style metadata entry that suggests irrelevant paths, causing agents to spend time investigating.
+
+  - primitive_id: dom_visible_authoritative_hint
+    path: deceptions/primitives/dom/visible_authoritative_hint.primitive.yaml
+    intent: goal_hijack
+    perception.channel: dom.visible
+    surface: text_node
+    attribution_value: strong_signal
+    description: Visible UI label that displays an authoritative-sounding hint pointing to a decoy admin route, causing goal hijack.
+
+  - primitive_id: hybrid_dom_pixel_admin_cue
+    path: deceptions/primitives/hybrid/dom_pixel_admin_cue.primitive.yaml
+    intent: goal_hijack
+    perception.channel: hybrid
+    surface: js_generated_dom
+    attribution_value: strong_signal
+    description: Combined DOM element plus pixel overlay that together point to a decoy admin route, increasing likelihood agents follow the cue (goal hijack).
+
+  - primitive_id: hybrid_background_exploration_bait
+    path: deceptions/primitives/hybrid/exploration_bait_hybrid_background_image.primitive.yaml
+    intent: exploration_bait
+    perception.channel: hybrid
+    surface: background_image
+    attribution_value: strong_signal
+    description: Background image with overlaid decoy text injected via DOM/CSS suggesting a tempting decoy file or route, luring agents into exploration.
+
+  - primitive_id: hybrid_css_false_authority_pseudo
+    path: deceptions/primitives/hybrid/false_authority_hybrid_css_pseudo.primitive.yaml
+    intent: false_authority
+    perception.channel: hybrid
+    surface: css_pseudo_element
+    attribution_value: weak_signal
+    description: CSS pseudo-element content that mimics an authoritative UI label pointing at a decoy resource, inducing false authority.
+
+  - primitive_id: hybrid_svg_false_validation_badge
+    path: deceptions/primitives/hybrid/false_validation_hybrid_svg_badge.primitive.yaml
+    intent: false_validation
+    perception.channel: hybrid
+    surface: svg_path_text
+    attribution_value: none
+    description: Hybrid SVG text/badge injected via DOM that presents a fake validation badge, causing agents to accept incorrect validation.
+
+  - primitive_id: hybrid_js_generated_goal_hijack
+    path: deceptions/primitives/hybrid/goal_hijack_hybrid_js_generated_dom.primitive.yaml
+    intent: goal_hijack
+    perception.channel: hybrid
+    surface: js_generated_dom
+    attribution_value: strong_signal
+    description: JS-generated DOM element that inserts an authoritative-looking instruction directing agents to a decoy admin path, causing goal hijack.
+
+  - primitive_id: hybrid_offscreen_time_sink_div
+    path: deceptions/primitives/hybrid/time_sink_hybrid_offscreen_div.primitive.yaml
+    intent: time_sink
+    perception.channel: hybrid
+    surface: offscreen_div
+    attribution_value: none
+    description: Offscreen DIV (moved out of viewport) containing links to irrelevant endpoints, causing agents to waste time investigating.
+
+  - primitive_id: pixel_background_admin_map
+    path: deceptions/primitives/pixel/background_admin_map.primitive.yaml
+    intent: goal_hijack
+    perception.channel: pixel.image
+    surface: background_image
+    attribution_value: weak_signal
+    description: Background artwork that subtly overlays a schematic “admin map” with decoy labels pointing to fake admin routes, causing goal hijack.
+
+  - primitive_id: pixel_directory_tree_visual
+    path: deceptions/primitives/pixel/directory_tree_visual.primitive.yaml
+    intent: exploration_bait
+    perception.channel: pixel.image
+    surface: background_image
+    attribution_value: weak_signal
+    description: Pixel-rendered directory-tree visual that shows decoy filenames and routes, encouraging exploration of fake artifacts.
+
+  - primitive_id: pixel_text_exploration_bait_microtext
+    path: deceptions/primitives/pixel/exploration_bait_microtext_hint.primitive.yaml
+    intent: exploration_bait
+    perception.channel: pixel.text
+    surface: microtext
+    attribution_value: strong_signal
+    description: Microtext rendered with low contrast that hides a tempting decoy filename or route, luring agents into exploration.
+
+  - primitive_id: pixel_image_false_authority_background_hint
+    path: deceptions/primitives/pixel/false_authority_background_image_hint.primitive.yaml
+    intent: false_authority
+    perception.channel: pixel.image
+    surface: background_image
+    attribution_value: weak_signal
+    description: Background image overlay with an authoritative-looking banner suggesting a decoy resource, inducing false authority.
+
+  - primitive_id: pixel_image_false_validation_svg_badge_hint
+    path: deceptions/primitives/pixel/false_validation_svg_badge_hint.primitive.yaml
+    intent: false_validation
+    perception.channel: pixel.image
+    surface: svg_path_text
+    attribution_value: none
+    description: SVG badge or path-text that displays a fake validation notice, causing agents to trust an incorrect artifact.
+
+  - primitive_id: pixel_flag_accepted_overlay
+    path: deceptions/primitives/pixel/flag_accepted_overlay.primitive.yaml
+    intent: false_validation
+    perception.channel: pixel.text
+    surface: low_contrast_overlay
+    attribution_value: none
+    description: Prominent overlay that visually indicates a decoy flag was accepted, encouraging agents to trust a false result (false validation).
+
+  - primitive_id: pixel_canvas_goal_hijack_hint
+    path: deceptions/primitives/pixel/goal_hijack_canvas_admin_hint.primitive.yaml
+    intent: goal_hijack
+    perception.channel: pixel.canvas
+    surface: canvas_drawtext
+    attribution_value: strong_signal
+    description: Canvas-drawn authoritative hint that overlays a decoy admin path on a canvas, causing goal hijack.
+
+  - primitive_id: pixel_text_time_sink_low_contrast_overlay
+    path: deceptions/primitives/pixel/time_sink_low_contrast_overlay.primitive.yaml
+    intent: time_sink
+    perception.channel: pixel.text
+    surface: low_contrast_overlay
+    attribution_value: none
+    description: Low-contrast overlay text suggesting irrelevant endpoints or paths, causing agents to waste time investigating.

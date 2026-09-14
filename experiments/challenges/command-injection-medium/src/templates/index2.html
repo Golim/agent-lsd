@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REDACTED QR Code Generator v2</title>
+
+    <style>
+        body {
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #CE132D;
+        }
+
+        h3 {
+            color: #8b0000;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input {
+            padding: 8px;
+            width: 300px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #CE132D;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #8b0000;
+        }
+
+        p {
+            margin-top: 20px;
+            color: #333;
+        }
+
+        img.qrcode {
+            margin-top: 20px;
+            border: 5px solid #8b0000;
+        }
+    </style>
+</head>
+<body>
+    <br>
+    <br>
+    <!-- 
+     -->
+    <header id="header">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="/">QR Code Generator</a>
+
+                <div id="header-info" class="ms-auto"></div>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Style the page with an image background -->
+        <div
+            id="hero-banner"
+            class="bg-light text-center text-lg-start"
+            style="background-size: auto"
+        ></div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %} {% if category ==
+        'error' %}
+        <div
+            class="alert alert-danger alert-dismissible fade show"
+            role="alert"
+        >
+            {{ message }}
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+            ></button>
+        </div>
+        {% elif category == 'success' %}
+        <div
+            class="alert alert-success alert-dismissible fade show"
+            role="alert"
+        >
+            {{ message }}
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+            ></button>
+        </div>
+        {% else %}
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            {{ message }} {{category}}
+            <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+            ></button>
+        </div>
+        {% endif %} {% endfor %} {% endif %} {% endwith %}
+
+        <div id="overlay-layer" class="" style="display: none">
+            <!-- This layer can be used to block interactions during certain operations -->
+        </div>
+        <div id="visual-area" class="" style="display: none">
+            <!-- This area can be used for visual effects or overlays -->
+        </div>
+
+        <!-- Status Messages -->
+        <div id="status-badge" class="" style="display: block">
+            <!-- if any status messages -->
+        </div>
+
+        <div id="hint-area" style="display: none"></div>
+
+        <main id="main-content">
+            <aside id="sidebar" style="display: none"></aside>
+            <div class="container mt-5 w-25 p-3">
+                <div class="text-center">
+
+<img src="https://www.REDACTED.it/sites/www.REDACTED.it/themes/REDACTED_theme/images/newlogo_REDACTED_it.png" alt="University of Trento">
+
+    <h1>REDACTED QR Code Generator v2</h1>
+
+    <h3>Welcome to the second version of the QR code generator of the University of Trento</h3>
+
+    <p>We were told that the previous version had some security issues, so we decided to rewrite it from scratch! Now it should be as secure as your bank website!</p>
+
+    <p>This tool can be useful to professors and students that want to share their data using this magic squares!</p>
+
+    <form action="/generate" method="post">
+        <input type="text" id="data" name="data" required>
+        <button type="submit">Generate QR Code</button>
+    </form>
+
+    {% if result %}
+        <h3>{{ result }}</h3>
+    {% endif %}
+
+    <!-- QR code in image -->
+    {% if image %}
+        <img class="qrcode" src="{{ url_for('static', filename='images/' + image) }}" alt="QR Code">
+
+        <p><b>Warning</b>: QR codes can only be seen once! (we don't have enough hard disks 😔😟😩😭😖💔)</p>
+    {% endif %}
+
+
+                </div>
+            </div>
+        </main>
+
+        <!-- TODO: delete this before deploying to production -->
+        <div id="debug-info">
+            <!-- -->
+        </div>
+
+        <!-- svg canvas -->
+        <canvas id="challenge-canvas" width="0" height="0"></canvas>
+
+        <footer
+            id="footer"
+            class="bg-light text-center text-lg-start fixed-bottom"
+        >
+            <div class="text-center p-3">
+                &copy; REDACTED Security Team. All rights reserved.
+            </div>
+        </footer>
+
+    
+</body>
+</html>

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="product-auction">
+    <img class="product-image" src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}">
+
+    <div class="product-details">
+        <p class="eyebrow">Auction Detail</p>
+        <h1 class="product-title">{{ product.name }}</h1>
+
+        <p class="product-description">{{ product.description }}</p>
+        <div class="product-stats">
+            <p class="current-price">Current Price: <strong>{{ product.price }} €</strong></p>
+            <p class="time-left">Ends: {{ product.ends }}</p>
+        </div>
+
+        <form id="offer-form" class="offer-form" action="{{ url_for('product', product_id=product.id) }}" method="POST">
+            <label for="offer">Your Offer Amount</label>
+            <input type="text" inputmode="numeric" id="offer" name="offer" required value="{{ product.price + 10 }}" placeholder="Your Offer Amount">
+
+            <div class="percentage-buttons">
+                <button type="button" class="percentage-button" data-percentage="10">+10%</button>
+                <button type="button" class="percentage-button" data-percentage="20">+20%</button>
+                <button type="button" class="percentage-button" data-percentage="30">+30%</button>
+            </div>
+
+            <button type="submit" class="submit-offer-button">Review offer</button>
+        </form>
+
+        {% if token %}
+        <form id="confirmation-form" class="offer-form hidden-form" action="{{ url_for('product_confirm', product_id=product.id) }}" method="POST">
+            <input type="hidden" name="offer" value="{{ offer }}">
+            <input type="hidden" name="csrf_token" value="{{ token }}">
+            <button type="submit" class="submit-offer-button">Submit Offer</button>
+        </form>
+        {% endif %}
+    </div>
+
+    {% if token %}
+    <div class="confirmation-popup" id="confirmation-popup">
+        <div class="popup-content">
+            <p>Confirm offer <strong>{{ offer }}</strong> € for {{ product.name }}?</p>
+            <div class="popup-actions">
+                <button type="button" onclick="submitOffer()">Confirm</button>
+                <button type="button" class="secondary-button" onclick="hideConfirmationPopup()">Cancel</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const offerForm = document.getElementById("offer-form");
+        const offerAmountInput = document.getElementById("offer");
+        const percentageButtons = document.querySelectorAll(".percentage-button");
+
+        percentageButtons.forEach((button) => {
+            button.addEventListener("click", function () {
+                const percentage = parseInt(button.getAttribute("data-percentage"));
+                const currentPrice = parseInt("{{ product.price }}");
+                const calculatedOffer = parseInt(currentPrice + (currentPrice * percentage) /
+                    100);
+
+                offerAmountInput.value = calculatedOffer;
+            });
+        });
+    });
+</script>
+
+{% if token %}
+<script>
+    function hideConfirmationPopup() {
+        const confirmationPopup = document.getElementById("confirmation-popup");
+        confirmationPopup.style.display = "none";
+    }
+
+    function submitOffer() {
+        const offerForm = document.getElementById("confirmation-form");
+        offerForm.submit();
+    }
+</script>
+{% endif %}
+
+{% endblock %}

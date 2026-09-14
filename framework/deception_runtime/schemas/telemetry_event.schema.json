@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agent-lsd.research/schemas/telemetry_event.schema.json",
+  "title": "Telemetry Event",
+  "description": "Structured event emitted by deception runtime for logging and analysis",
+  "type": "object",
+  "required": [
+    "timestamp",
+    "event_type",
+    "request_id",
+    "challenge_id",
+    "route",
+    "method"
+  ],
+  "properties": {
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO8601 UTC timestamp"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "request_start",
+        "request_end",
+        "instance_selected",
+        "honeytoken_hit",
+        "deception_rendered",
+        "deception_interacted",
+        "deception_apply_failed",
+        "rabbit_hole_entered",
+        "rabbit_hole_hop",
+        "rabbit_hole_terminal",
+        "fake_goal_viewed",
+        "fake_goal_flag_shown",
+        "fake_goal_success_shown",
+        "endpoint_trap_viewed",
+        "endpoint_trap_step",
+        "endpoint_trap_action",
+        "endpoint_trap_terminal"
+      ],
+      "description": "Type of event"
+    },
+    "request_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique request identifier (UUID4)"
+    },
+    "challenge_id": {
+      "type": "string",
+      "description": "Challenge identifier"
+    },
+    "instance_id": {
+      "type": ["string", "null"],
+      "description": "Active deception instance ID (if any)"
+    },
+    "student_id": {
+      "type": ["string", "null"],
+      "description": "Student identifier (if provided)"
+    },
+    "route": {
+      "type": "string",
+      "description": "Request path (without query string)"
+    },
+    "method": {
+      "type": "string",
+      "description": "HTTP method (GET, POST, etc.)"
+    },
+    "status_code": {
+      "type": ["integer", "null"],
+      "description": "HTTP status code (null for request_start events)"
+    },
+    "user_agent": {
+      "type": ["string", "null"],
+      "description": "User-Agent header value"
+    },
+    "remote_addr": {
+      "type": ["string", "null"],
+      "description": "Client IP address"
+    },
+    "extra": {
+      "type": "object",
+      "description": "Event-specific additional data",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

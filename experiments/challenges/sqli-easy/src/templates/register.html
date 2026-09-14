@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Register - Bank of REDACTED{% endblock %}
+
+{% block content %}
+<main>
+    <div class="registration-container">
+      <div class="registration-card">
+        <h2>Register</h2>
+        <form action="{{ url_for('register') }}" method="POST">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required>
+
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required>
+
+          <label for="confirm-password">Confirm Password</label>
+          <input type="password" id="confirm-password" name="confirm-password" required>
+
+          <button type="submit">Register</button>
+        </form>
+      </div>
+    </div>
+  </main>
+{% endblock %}

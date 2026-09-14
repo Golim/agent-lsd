@@ -1,0 +1,167 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://example.org/schemas/verification.schema.json",
+    "title": "Deception Verification Result",
+    "description": "Schema for DOM and pixel verification outputs",
+    "definitions": {
+        "dom_result": {
+            "type": "object",
+            "required": ["instance_id", "route", "dom_present", "dom_leakage", "selector_missing"],
+            "properties": {
+                "instance_id": {
+                    "type": "string"
+                },
+                "primitive_id": {
+                    "type": ["string", "null"]
+                },
+                "route": {
+                    "type": "string"
+                },
+                "channel": {
+                    "type": "string"
+                },
+                "surface": {
+                    "type": "string"
+                },
+                "dom_present": {
+                    "type": "boolean",
+                    "description": "Deception found in DOM"
+                },
+                "dom_leakage": {
+                    "type": "boolean",
+                    "description": "Pixel deception leaked to DOM"
+                },
+                "selector_missing": {
+                    "type": "boolean",
+                    "description": "Placement selector not found"
+                },
+                "html_present": {
+                    "type": "boolean"
+                },
+                "visible_present": {
+                    "type": "boolean"
+                },
+                "a11y_present": {
+                    "type": "boolean"
+                },
+                "human_visibility": {
+                    "type": "string"
+                },
+                "payload_length": {
+                    "type": "integer"
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "pass": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "pixel_result": {
+            "type": "object",
+            "required": ["instance_id", "route", "pixel_expected", "pixel_confirmed"],
+            "properties": {
+                "instance_id": {
+                    "type": "string"
+                },
+                "primitive_id": {
+                    "type": ["string", "null"]
+                },
+                "route": {
+                    "type": "string"
+                },
+                "channel": {
+                    "type": "string"
+                },
+                "surface": {
+                    "type": "string"
+                },
+                "diff_fullpage": {
+                    "type": "number",
+                    "description": "Mean absolute difference full page"
+                },
+                "diff_element": {
+                    "type": ["number", "null"],
+                    "description": "MAD for specific element"
+                },
+                "pixel_expected": {
+                    "type": "boolean",
+                    "description": "Should have pixel changes"
+                },
+                "pixel_confirmed": {
+                    "type": "boolean",
+                    "description": "Pixel changes detected"
+                },
+                "visual_leakage": {
+                    "type": "boolean",
+                    "description": "Unexpected visual changes"
+                },
+                "baseline_saved": {
+                    "type": "boolean"
+                },
+                "deception_saved": {
+                    "type": "boolean"
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "pass": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "merged_result": {
+            "type": "object",
+            "required": ["instance_id", "route"],
+            "properties": {
+                "instance_id": {
+                    "type": "string"
+                },
+                "primitive_id": {
+                    "type": ["string", "null"]
+                },
+                "route": {
+                    "type": "string"
+                },
+                "channel": {
+                    "type": "string"
+                },
+                "surface": {
+                    "type": "string"
+                },
+                "dom_pass": {
+                    "type": ["boolean", "null"]
+                },
+                "pixel_pass": {
+                    "type": ["boolean", "null"]
+                },
+                "overall_pass": {
+                    "type": "boolean"
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    },
+    "oneOf": [{
+            "$ref": "#/definitions/dom_result"
+        },
+        {
+            "$ref": "#/definitions/pixel_result"
+        },
+        {
+            "$ref": "#/definitions/merged_result"
+        }
+    ]
+}
