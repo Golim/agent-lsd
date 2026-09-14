@@ -1,6 +1,6 @@
-# AgentLSD: A Controlled Framework for Environment Deception in CTF-Solving Agents
+# AgentLSD: Evaluating AI Security Agents Under Adversarial Task Contamination
 
-This repository contains the code for the paper "AgentLSD: A Controlled Framework for Environment Deception in CTF-Solving Agents", submitted for review to the [19th ACM Workshop on Artificial Intelligence and Security](https://aisec.cc/).
+This repository contains the code for the paper "AgentLSD: Evaluating AI Security Agents Under Adversarial Task Contamination", published at the [19th ACM Workshop on Artificial Intelligence and Security](https://aisec.cc/).
 
 ## Repository Contents
 
@@ -18,7 +18,7 @@ Refer to the [README.md](framework/README.md) for setup and usage instructions.
 
 This directory contains the implementation of the CTF challenges and the evaluation of AgentLSD.
 
-[README.md](experiments/README.md) provides instructions on how to download the scripts to run the experiments abd the raw data.
+[README.md](experiments/README.md) provides instructions on how to download the scripts to run the experiments and the raw data.
 
 #### CTF Challenges
 
