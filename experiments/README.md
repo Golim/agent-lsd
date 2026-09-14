@@ -7,7 +7,7 @@ The full artifact (including scripts to run the experiments, prompts, logs and L
 To extract the data, download the archive and run:
 
 ```bash
-tar -xzf raw_data.tar.gz
+tar -xzf experiments.tar.gz
 ```
 
 SHA256 checksums are provided in `experiments.tar.gz.sha256` and `experiments.contents.sha256`.
