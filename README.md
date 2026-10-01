@@ -22,6 +22,5 @@ This directory contains the implementation of the CTF challenges and the evaluat
 
 #### CTF Challenges
 
-`experiments/challenges/` contains the CTF challenges used in the experiments. Each challenge is implemented as a Python Flask application and can be augmented with traps to study the effects of adversarial task contamination.
-
-Refer to the [README.md](experiments/challenges/README.md) for instructions on how to run the challenges and traps.
+The CTF challenges used in the experiments are not included in this repository. See
+[`experiments/challenges/README.md`](experiments/challenges/README.md) for details.
